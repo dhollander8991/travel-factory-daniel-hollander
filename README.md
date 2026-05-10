@@ -1,5 +1,10 @@
 # Vacation Manager
 
+## Video demo
+https://drive.google.com/file/d/1ttiBlHOwOXeUC5wN3_HLw3PfuHMWc33C/view?usp=sharing 
+
+
+
 ## Overview
 
 An internal HR tool for managing employee vacation requests. Built as a full-stack monorepo with two separate web portals and a REST API:
