@@ -1,0 +1,14 @@
+{
+  "name": "@org/validator-portal",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "@org/shared": "workspace:*",
+    "@primevue/themes": "^4.5.4",
+    "axios": "^1.16.0",
+    "primeicons": "^7.0.0",
+    "primevue": "^4.5.5",
+    "vue-i18n": "^11.4.2",
+    "vue-router": "^5.0.6"
+  }
+}

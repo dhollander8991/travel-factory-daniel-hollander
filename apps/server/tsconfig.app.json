@@ -1,0 +1,24 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "types": ["node"],
+    "rootDir": "src",
+    "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "declaration": false,
+    "composite": false,
+    "declarationMap": false,
+    "emitDeclarationOnly": false
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["eslint.config.js", "eslint.config.cjs", "eslint.config.mjs"],
+  "references": [
+    {
+      "path": "../../libs/shared/tsconfig.lib.json"
+    }
+  ]
+}
