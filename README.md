@@ -11,14 +11,6 @@ Both portals share types from a common library and communicate with the same Exp
 
 ---
 
-## Live Demo
-
-- Requester Portal: [URL]
-- Validator Portal: [URL]
-- API: [URL]
-
-> **Note:** The first request to the API may take ~30 seconds to respond (Render free tier cold start).
-
 **To try it yourself — no invite needed:**
 - Go to the **Requester Portal** → Sign Up → you are registered as an employee
 - Go to the **Validator Portal** → Sign Up → you are registered as a manager
@@ -161,7 +153,7 @@ SMTP_USER=                       # Mailtrap credentials
 SMTP_PASS=
 
 # AI — Anthropic API key for the HR assistant chatbot
-ANTHROPIC_KEY=sk-ant-...         # Get from console.anthropic.com
+ANTHROPIC_KEY=ANTHROPIC_KEY=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
 ```
 
 **`apps/requester-portal/.env`** and **`apps/validator-portal/.env`**
@@ -526,9 +518,3 @@ All tests mock database access and HTTP calls — no real database or API is hit
 - **OpenAPI spec** — the API contract is currently enforced through shared TypeScript types. An OpenAPI spec would enable code generation for non-TypeScript consumers and serve as living documentation.
 - **`libs/shared` as npm package** — if the monorepo splits into separate repositories, `libs/shared` should be published as a private npm package.
 - **Race condition on simultaneous approvals** — if two validators approve the same request at the same moment, the status transition guard may not catch it cleanly. A database-level transaction with a `SELECT FOR UPDATE` lock would make this airtight.
-
----
-
-## Git & Version Control
-
-Hosted on Bitbucket. Feature branch workflow — all changes developed on a feature branch and merged to `main` via pull request.
