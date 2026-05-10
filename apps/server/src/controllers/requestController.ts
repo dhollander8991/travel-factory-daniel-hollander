@@ -13,8 +13,6 @@ export const getAllRequests = async (
   next: NextFunction
 ) => {
   try {
-    // req.query contains URL query parameters
-    // e.g. /api/v1/requests?status=Pending → req.query.status = 'Pending'
     const status = req.query.status as RequestStatus | undefined;
     const result = await requestService.getAllRequests({ status });
     res.status(200).json({ data: result.requests, total: result.total });
@@ -33,9 +31,6 @@ export const getUserRequests = async (
   next: NextFunction
 ) => {
   try {
-    // req.params contains URL path parameters
-    // e.g. /api/v1/users/1/requests → req.params.id = '1'
-    // parseInt converts the string '1' to number 1
     const userId = req.params.id;
     const status = req.query.status as RequestStatus | undefined;
     const result = await requestService.getUserRequests({ userId, status });

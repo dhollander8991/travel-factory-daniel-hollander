@@ -12,8 +12,6 @@ import { VacationRequest } from './VacationRequest';
 @Entity('users')
 export class User {
 
-  // 'uuid' tells PostgreSQL to generate a UUID v4 automatically
-  // UUID format: a3f8c2d1-4b5e-4c6f-8d7e-9f0a1b2c3d4e
   // Never sequential — reveals nothing about the data
   @PrimaryGeneratedColumn('uuid')
   id: string;

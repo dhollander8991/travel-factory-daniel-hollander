@@ -42,8 +42,6 @@ const handleRegister = async (): Promise<void> => {
   if (!validate()) return;
   loading.value = true;
   try {
-    // Role is always Validator on this portal
-    // The requester portal sends UserRole.REQUESTER instead
     await api.post('/api/v1/auth/register/validator', {
       name: name.value,
       email: email.value,
@@ -191,7 +189,13 @@ const handleRegister = async (): Promise<void> => {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .login-card {
+    height: 100%;
+  }
 }
 
 .login-header {

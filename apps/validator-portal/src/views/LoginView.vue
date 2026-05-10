@@ -67,7 +67,6 @@ const handleLogin = async (): Promise<void> => {
       <div class="login-header">
         <i class="pi pi-shield" />
         <h1>Vacation Manager</h1>
-        <!-- Green tag identifies this as the manager portal -->
         <span class="portal-tag">Manager Portal</span>
       </div>
 
@@ -136,19 +135,25 @@ const handleLogin = async (): Promise<void> => {
   background: linear-gradient(145deg, var(--p-surface-100) 0%, var(--p-surface-50) 100%);
 }
 
-.login-card {
-  background: var(--p-surface-0);
-  border-radius: 16px;
-  padding: 40px;
-  width: 100%;
-  max-width: 420px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04), 0 12px 40px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--p-surface-200);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-}
+  .login-card {
+    background: var(--p-surface-0);
+    border-radius: 16px;
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04), 0 12px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--p-surface-200);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: auto;
+  }
+
+  @media (max-width: 768px) {
+    .login-card {
+      height: 100%;
+    }
+  }
 
 .login-header {
   text-align: center;

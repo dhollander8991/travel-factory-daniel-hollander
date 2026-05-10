@@ -36,7 +36,6 @@ export const createAppRouter = () => {
     const token = localStorage.getItem('token');
     const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
 
-    // Valid session requires both a token and the correct role for this portal
     const hasCorrectRole = storedUser?.role === UserRole.VALIDATOR;
     const isAuthenticated = !!token && hasCorrectRole;
 

@@ -5,7 +5,6 @@ import api from '../services/axios';
 
 /**
  * useVacations composable — manages all vacation request state and API calls
- * This is Vue's equivalent of a React custom hook
  * Keeps all data fetching and business logic out of the component
  */
 export const useVacations = (userId: string) => {
@@ -17,13 +16,8 @@ export const useVacations = (userId: string) => {
   const loading = ref<boolean>(false);
   const error = ref<string | null>(null);
 
-  // Active status filter — null means show all
   const activeFilter = ref<RequestStatus | null>(null);
-
-  // Search query — filters requests by reason or date
   const searchQuery = ref<string>('');
-
-  // Sort value — controls ordering of filtered results
   const selectedSort = ref<string>('newest');
 
   const startDateFilter = ref<Date | null>(null);
@@ -36,12 +30,10 @@ export const useVacations = (userId: string) => {
   const filteredRequests = computed(() => {
     let result = requests.value;
 
-    // Apply status filter
     if (activeFilter.value) {
       result = result.filter((r) => r.status === activeFilter.value);
     }
 
-    // Apply search filter — checks reason and dates
     if (searchQuery.value.trim()) {
       const query = searchQuery.value.toLowerCase();
       result = result.filter(
@@ -59,20 +51,15 @@ export const useVacations = (userId: string) => {
       result = result.filter((r) => new Date(r.startDate).getTime() <= to);
     }
 
-    // Apply sorting
-    // slice() creates a shallow copy so we don't mutate the original array
     // Mutating reactive arrays directly can cause unexpected Vue reactivity issues
     result = result.slice().sort((a, b) => {
       if (selectedSort.value === 'newest') {
-        // Descending by createdAt — most recent first
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       }
       if (selectedSort.value === 'oldest') {
-        // Ascending by createdAt — oldest first
         return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
       }
       if (selectedSort.value === 'duration') {
-        // Descending by duration — longest request first
         const daysA = new Date(a.endDate).getTime() - new Date(a.startDate).getTime();
         const daysB = new Date(b.endDate).getTime() - new Date(b.startDate).getTime();
         return daysB - daysA;
@@ -90,7 +77,6 @@ export const useVacations = (userId: string) => {
     pending: requests.value.filter((r) => r.status === RequestStatus.PENDING).length,
     approved: requests.value.filter((r) => r.status === RequestStatus.APPROVED).length,
     rejected: requests.value.filter((r) => r.status === RequestStatus.REJECTED).length,
-    // Total approved days — shown in the stats row
     totalDays: requests.value
       .filter((r) => r.status === RequestStatus.APPROVED)
       .reduce((acc, r) => {
@@ -119,7 +105,6 @@ export const useVacations = (userId: string) => {
     } catch (err: any) {
       error.value = err.response?.data?.error?.message || 'Failed to load requests';
     } finally {
-      // Always resets loading whether success or error
       loading.value = false;
     }
   };
@@ -149,7 +134,6 @@ export const useVacations = (userId: string) => {
       reason,
     });
 
-    // Prepend the new request to the list
     // More efficient than refetching everything from the server
     requests.value = [response.data.data, ...requests.value];
   };
@@ -184,7 +168,6 @@ export const useVacations = (userId: string) => {
     }
   };
 
-  // Auto-cleanup if composable goes out of scope
   onUnmounted(() => {
     stopPolling();
   });

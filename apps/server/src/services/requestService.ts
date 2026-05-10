@@ -23,26 +23,18 @@ interface GetAllRequestsParams {
 export const getAllRequests = async ({ status }: GetAllRequestsParams) => {
   const repo = getRequestRepo();
 
-  // createQueryBuilder lets us build the query dynamically
-  // 'request' is the alias we use to reference the entity in the query
   const qb = repo
     .createQueryBuilder('request')
-    // leftJoinAndSelect loads the related user data in the same query
-    // Without this request.user would be undefined
     // This is one JOIN — not the N+1 problem
     .leftJoinAndSelect('request.user', 'user')
     .orderBy('request.createdAt', 'DESC');
 
-  // Only add the WHERE clause if status was provided
-  // If no status filter, return all requests
   if (status) {
     qb.where('request.status = :status', { status });
   }
 
   const [requests, total] = await qb.getManyAndCount();
 
-  // getManyAndCount() returns both the results and the total count
-  // in a single query — more efficient than two separate queries
   return { requests, total };
 };
 
@@ -72,7 +64,6 @@ export const getUserRequests = async ({ userId, status }: GetUserRequestsParams)
     .orderBy('request.createdAt', 'DESC');
 
   if (status) {
-    // andWhere adds an additional condition — doesn't replace the existing WHERE
     qb.andWhere('request.status = :status', { status });
   }
 
@@ -108,7 +99,6 @@ export const createRequest = async ({
   const userRepo = getUserRepo();
   const requestRepo = getRequestRepo();
 
-  // Verify the user exists before creating a request
   const user = await userRepo.findOne({ where: { id: userId } });
   if (!user) {
     throw new AppError(404, 'User not found', 'USER_NOT_FOUND');
@@ -142,12 +132,10 @@ export const createRequest = async ({
     );
   }
 
-  // Create and save the new request
   const request = requestRepo.create({
     user,
     startDate,
     endDate,
-    // undefined reason becomes null in the DB
     reason: reason || null,
     status: RequestStatus.PENDING,
   });
@@ -179,7 +167,6 @@ export const updateRequest = async ({
                                     }: UpdateRequestParams) => {
   const repo = getRequestRepo();
 
-  // Find the request — include user data for the response
   const request = await repo.findOne({
     where: { id: requestId },
     relations: { user: true },
@@ -200,9 +187,7 @@ export const updateRequest = async ({
     );
   }
 
-  // Update the status and comments
   request.status = status;
-  // Only set comments if provided — keeps null for approvals
   request.comments = comments || null;
 
   return repo.save(request);

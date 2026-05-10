@@ -22,7 +22,6 @@ export const useRequests = () => {
   const startDateFilter = ref<Date | null>(null);
   const endDateFilter = ref<Date | null>(null);
 
-  // Multi-select state — array of selected request IDs
   const selectedIds = ref<string[]>([]);
 
   // ─────────────────────────────────────────────

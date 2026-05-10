@@ -3,7 +3,6 @@ import { Request, Response, NextFunction } from 'express';
 export class AppError extends Error {
   constructor(
     public statusCode: number,
-    // override tells TypeScript this intentionally overrides Error.message
     public override message: string,
     public code: string,
     public field?: string

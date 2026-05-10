@@ -8,16 +8,11 @@ import Password from 'primevue/password';
 import { useAuthStore } from '../stores/authStore';
 import api from '../services/axios';
 
-// useRouter() gives us programmatic navigation
-// equivalent to useNavigate() in React Router
 const router = useRouter();
-
-// useToast() lets us show success/error notifications
 const toast = useToast();
 
 const { setAuth } = useAuthStore();
 
-// ref() creates reactive state — when these change Vue re-renders
 const email = ref<string>('');
 const password = ref<string>('');
 const loading = ref<boolean>(false);
@@ -40,7 +35,6 @@ const validate = (): boolean => {
     errors.value.password = 'Password is required';
   }
 
-  // Returns true only if no errors were added
   return Object.keys(errors.value).length === 0;
 };
 
@@ -61,7 +55,6 @@ const handleLogin = async (): Promise<void> => {
 
     const { token, user } = response.data.data;
 
-    // Store token and user in memory and localStorage
     setAuth({ newToken: token, newUser: user });
 
     toast.add({
@@ -71,7 +64,6 @@ const handleLogin = async (): Promise<void> => {
       life: 3000,
     });
 
-    // Navigate to dashboard after successful login
     router.push({ name: 'dashboard' });
   } catch (error: any) {
     const message = error.response?.data?.error?.message || 'Login failed';
@@ -82,8 +74,6 @@ const handleLogin = async (): Promise<void> => {
       life: 5000,
     });
   } finally {
-    // loading = false whether success or error
-    // Re-enables the submit button
     loading.value = false;
   }
 };
@@ -92,18 +82,14 @@ const handleLogin = async (): Promise<void> => {
 <template>
   <div class="login-page">
     <div class="login-card">
-      <!-- Logo and portal identifier -->
       <div class="login-header">
         <i class="pi pi-sun" />
         <h1>Vacation Manager</h1>
         <span class="portal-tag">Employee Portal</span>
       </div>
 
-      <!-- Tab switcher — Login / Register -->
       <div class="tab-row">
         <button class="tab active">Sign in</button>
-        <!-- router-link navigates without a full page reload -->
-        <!-- equivalent to Link in React Router -->
         <RouterLink to="/register" class="tab">Sign up</RouterLink>
       </div>
 
@@ -111,11 +97,8 @@ const handleLogin = async (): Promise<void> => {
       <p class="subtitle">Sign in to manage your vacation requests</p>
 
       <div class="form">
-        <!-- Email field -->
         <div class="field">
           <label for="email">Email address</label>
-          <!-- v-model is two-way binding — updates email ref on every keystroke -->
-          <!-- equivalent to value={email} onChange={e => setEmail(e.target.value)} in React -->
           <InputText
             id="email"
             v-model="email"
@@ -124,11 +107,9 @@ const handleLogin = async (): Promise<void> => {
             :class="{ 'p-invalid': errors.email }"
             fluid
           />
-          <!-- v-if renders the element only when condition is true -->
           <small v-if="errors.email" class="error">{{ errors.email }}</small>
         </div>
 
-        <!-- Password field -->
         <div class="field">
           <label for="password">Password</label>
           <Password
@@ -143,9 +124,6 @@ const handleLogin = async (): Promise<void> => {
           <small v-if="errors.password" class="error">{{ errors.password }}</small>
         </div>
 
-        <!-- Submit button -->
-        <!-- :disabled binds the disabled attribute to loading state -->
-        <!-- When loading is true the button is disabled — prevents double submit -->
         <Button
           label="Sign in"
           icon="pi pi-sign-in"
@@ -165,8 +143,6 @@ const handleLogin = async (): Promise<void> => {
 </template>
 
 <style scoped>
-/* scoped means these styles only apply to this component */
-/* equivalent to CSS modules in React */
 .login-page {
   width: 100%;
   height: 100vh;
@@ -187,7 +163,13 @@ const handleLogin = async (): Promise<void> => {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .login-card {
+    height: 100%;
+  }
 }
 
 .login-header {
